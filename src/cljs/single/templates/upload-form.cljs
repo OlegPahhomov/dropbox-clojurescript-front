@@ -1,4 +1,9 @@
-(ns mytemplates)
+(ns mytemplates.templates
+  (:require [cognitect.transit :as t]))
+
+(def PICTURE_URL "http://localhost:8080/picture/")
+(defn read-json [json]
+  (t/read (t/reader :json) json))
 
 (def upload-form
   [:form#fileForm
@@ -22,19 +27,42 @@
    ]
   )
 
-(defn display-files [picture-name picture-ratio-class picture-url]
-  [:div.file-container
-   ;;this should be repeated
-   [:div {:class picture-ratio-class}
-    [:a {:title picture-name
-         :href  picture-url}
-     [:img {:src picture-url}]
-     ]
-    [:form
-     [:button.close {:type "submit"
-                     :title "Delete file"}
-      "&times;"]
-     ]
+
+(defn display-one-file [picture]
+  "destructuring didn't work"
+  (let [picture-name (get picture 0)
+        picture-url (get picture 1)
+        picture-ratio-class (get picture 2)]
+        [:div {:class picture-ratio-class}
+         [:a.fancybox {:title picture-name
+              :href  picture-url}
+          [:img {:src picture-url}]
+          ]
+         [:form
+          [:button.close {:type  "submit"
+                          :title "Delete file"}
+           "&times;"]
+          ]
+         ]
+        ))
+
+
+(defn map-to-list-of-picture-name-url-ratioclass [x]
+  (conj []
+        (get x "name")
+        (str PICTURE_URL (get x "id"))
+        (if (> (get x "ratio") 1.45)
+          "file bigfile"
+          "file")
+        ))
+
+(defn make-inner-htmls [files]
+  (map display-one-file (doall (map map-to-list-of-picture-name-url-ratioclass (read-json files)))))
+
+(defn display-files [files]
+  [:div
+   [:div.heading [:h3 "List of Files"]]
+   [:div.file-container
+    (make-inner-htmls files)
     ]
-   ]
-  )
+   ])

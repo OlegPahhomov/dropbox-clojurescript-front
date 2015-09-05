@@ -17,7 +17,7 @@
              :content "width=device-width, initial-scale=1"}]
      (include-css
        ;(if (env :dev)
-       "css/files.css" "css/upload-form.css" "css/site.css")]
+       "css/files.css" "css/upload-form.css")]
     [:body
      [:div#app
       [:h3 "ClojureScript has not been compiled!"]
