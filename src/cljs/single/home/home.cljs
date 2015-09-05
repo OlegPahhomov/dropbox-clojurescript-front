@@ -45,9 +45,7 @@
   (dom/set-html!
     (sel1 :#show_files)
     (html (let [files (<! GET_FILES)]
-            (do (mytemplates/display-files files)
-
-                )
+            (mytemplates/display-files files)
             )
           ))
 
@@ -55,9 +53,7 @@
     (sel1 :#file-form-div)
     (html mytemplates/upload-form))
 
-
+  (jq/bind ($ "#btn") :click (fn [] (js/alert "Hi!")))
 
   )
-
-
 
