@@ -1,5 +1,5 @@
 (ns single.home.home
-  (:use [jayq.core :only [$ prevent document-ready]])
+  (:use [jayq.core :only [$ ajax prevent parent document-ready siblings attr prop]])
   (:require [single.ROUTES :as R]
             [goog.net.XhrIo :as xhr]
             [cljs.core.async :as async :refer [chan close! <!]]
@@ -21,7 +21,7 @@
 (def FILES_URL "http://localhost:8080/files")
 
 (defn log [s]
-  (.log js/console (str s)))
+  (.log js/console s))
 
 (defn GETs [url]
   (let [channel (chan 1)]
@@ -43,6 +43,24 @@
    ]
   )
 
+
+(defn generate-form-data [params]
+  (let [form-data (js/FormData.)]
+    (doseq [[k v] params]
+      (.append form-data (name k) v))
+    form-data))
+
+(defn upload [file]
+  (go (let [response (<! (http/post "http://localhost:8080/add"
+                                    {:body (generate-form-data {:file file})}))]
+        (prn (:status response))
+        (prn (:body response)))))
+
+;; some-dom-element is a single file upload input
+;; <input type="file">
+
+
+
 (go
   (dom/set-html!
     (sel1 :#show_files)
@@ -62,13 +80,49 @@
       "text")
     )
   (jq/bind ($ "#btn") :click (fn [] (js/alert (str "Hi! "))))
-  #_(jq/bind ($ "button.close") :click
-             (fn []
-               (http/post
-                 "http://localhost:8080/remove/"
-                 )
+  (jq/bind ($ "button.close")
+           :click
+           (fn [] (js/alert "delete doesnt work")
+             #_(http/post
+                 "http://localhost:8080/remove/")
 
-               ))
+             ))
+  (let [files (first ($ ($ "#fileForm"))) ]
+    (jq/bind
+      ($ "#fileForm") :submit
+      (fn [e]
+        (do
+          (prevent e)
+          (js/alert "uploading doesn't work")
+          #_(log files)
+          #_(http/request {
+                         :url             "http://localhost:8080/add"
+                         :data            (new js/FormData files)
+                         :method          "POST"
+                         :cache           false
+                         :contentType     "multipart/form-data"
+                         :processData     false
+                         :response-format {:content-type "application/json"}
+                         })
+          ;(upload (-> "file" .-files first))
+          #_(ajax "http://localhost:8080/add"
+                  {
+                   :data            (new js/FormData files)
+                   :method          "POST"
+                   :cache           false
+                   :contentType     false
+                   :processData     false
+                   :response-format {:content-type "application/json"}
+                   }
+                  )
+          )
+        ;(http/post
+        ;  "http://localhost:8080/add")
+        ;  {:multipart-params
+        ;   ["file" (new js/FormData files)]}
+        )
+      )
+    )
   )
 
 

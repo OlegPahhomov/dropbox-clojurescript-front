@@ -13,6 +13,9 @@
 (defn log [s]
   (.log js/console (str s)))
 
+(def abc
+  (fn [] (js/alert "hello")))
+
 (defn display-one-file [picture]
   "destructuring didn't work"
   (let [picture-id (get picture 0)
@@ -30,25 +33,24 @@
       [:img {:src picture-url}]
       ]
 
-     [:div
-      [:button.close {:type    "submit"
-                      :title   "Delete file"
-                      }
+     [:div {:id (str "delete_" picture-id)}
+      [:button.close {:type  "submit"
+                      :title "Delete file"}
        "&times;"]
       ]
      ]
     ))
 
 
-(defn map-to-list-of-picture-id-name-url-ratioclass [x]
+(defn map-to-list-of-picture-id-name-url-ratioclass [filelist]
   (conj []
-        (get x "id")
-        (get x "name")
-        (str PICTURE_URL (get x "id"))
-        (if (> (get x "ratio") 1.45)
+        (get filelist "id")
+        (get filelist "name")
+        (str PICTURE_URL (get filelist "id"))
+        (if (> (get filelist "ratio") 1.45)
           "file bigfile"
           "file")
-        (str "show_popup_link_" (get x "id"))
+        (str "show_popup_link_" (get filelist "id"))
         ))
 
 (defn make-inner-htmls [files]
@@ -64,7 +66,8 @@
 
 
 (def upload-form
-  [:form#fileForm
+  [:form#fileForm {:method :post
+                   :enctype "multipart/form-data"}
    [:div.heading [:h3 "Upload new files"]]
    [:div.upload-block
     [:div.upload-block__item.upload-block__item--big
