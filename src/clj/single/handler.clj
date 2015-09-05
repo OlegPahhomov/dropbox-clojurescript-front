@@ -17,14 +17,19 @@
              :content "width=device-width, initial-scale=1"}]
      (include-css
        ;(if (env :dev)
-       "css/files.css" "css/upload-form.css")]
+       "css/files.css" "css/upload-form.css"
+       "libs/fancybox/jquery.fancybox.css")]
     [:body
      [:div#app
       [:h3 "ClojureScript has not been compiled!"]
       [:p "please run "
        [:b "lein figwheel"]
        " in order to start the compiler"]]
-     (include-js "js/app.js")]]))
+     (include-js
+       "libs/jquery/jquery-1.11.3.min.js"
+       "libs/fancybox/jquery.fancybox.pack.js"
+       "libs/fancyhack.js"
+       "js/app.js")]]))
 
 (defroutes routes
   (GET "/" [] home-page)

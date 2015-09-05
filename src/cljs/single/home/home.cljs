@@ -1,13 +1,13 @@
 (ns single.home.home
+  (:use [jayq.core :only [$ document-ready]])
   (:require [single.ROUTES :as R]
             [goog.net.XhrIo :as xhr]
             [cljs.core.async :as async :refer [chan close!]]
             [dommy.core :as dom]
             [hiccups.runtime :as hiccupsrt]
             [clojure.walk :refer [keywordize-keys]]
-
-            [cljs.reader :as reader]
-            [mytemplates.templates :as mytemplates]
+            [single.mytemplates.templates :as mytemplates]
+            [jayq.core :as jq]
             )
   (:require-macros
     [cljs.core.async.macros :refer [go alt!]]
@@ -36,6 +36,8 @@
   [:div#content
    [:div#show_files "Loading..."]
    [:div#file-form-div "Upload form is loading..."]
+   [:div#fancybox "blabla"]
+   [:button#btn "button"]
    ]
   )
 
@@ -43,13 +45,18 @@
   (dom/set-html!
     (sel1 :#show_files)
     (html (let [files (<! GET_FILES)]
-            (mytemplates/display-files files)
-            )))
+            (do (mytemplates/display-files files)
+
+                )
+            )
+          ))
 
   (dom/set-html!
     (sel1 :#file-form-div)
-    (html mytemplates/upload-form)
-    )
+    (html mytemplates/upload-form))
+
+
+
   )
 
 

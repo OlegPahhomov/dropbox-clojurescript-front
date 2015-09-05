@@ -28,7 +28,7 @@
                  [secretary "1.2.3"]
                  [org.clojure/core.async "0.1.346.0-17112a-alpha"]
                  [prismatic/dommy "1.1.0"]
-                 [org.clojure/data.json "0.2.6"]
+                 [jayq "2.5.4"]
                  ]
 
   :plugins [[lein-environ "1.0.0"]
@@ -47,9 +47,9 @@
                                     [:cljsbuild :builds :app :compiler :output-dir]
                                     [:cljsbuild :builds :app :compiler :output-to]]
 
-  :minify-assets
-  {:assets
-    {"resources/public/css/site.min.css" "resources/public/css/site.css"}}
+  ;:minify-assets
+  ;{:assets
+  ;  {"resources/public/css/files.css" "resources/public/css/upload-form.css"}}
 
   :cljsbuild {:builds {:app {:source-paths ["src/cljs"]
                              :compiler {:output-to     "resources/public/js/app.js"
