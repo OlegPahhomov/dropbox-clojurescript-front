@@ -17,8 +17,6 @@
 
 ;; -------------------------
 ;; Views
-
-
 (defn current-page [] [:div [(session/get :current-page)]])
 
 ;; -------------------------
@@ -60,10 +58,3 @@
 (defn init! []
   (hook-browser-navigation!)
   (mount-root))
-
-
-#_(do
-    (secretary/defroute (str R/HOME) [] (session/put! :current-page #'home/home-page))
-    (secretary/defroute (str R/ABOUT) [] (session/put! :current-page #'about/about-page))
-    (secretary/defroute (str R/BMI) [] (session/put! :current-page #'bmi/bmi-component))
-    (secretary/defroute (str R/PRESENTATION) [] (session/put! :current-page #'presentation/presentation)))

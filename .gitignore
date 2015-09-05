@@ -3,6 +3,7 @@ tasks.xml
 figwheel_server.log
 Procfile
 system.properties
+.lein-env
 
 # IntelliJ project files
 .idea

@@ -7,6 +7,7 @@
             [clojure.walk :refer [keywordize-keys]]
             [cognitect.transit :as t]
             [cljs.reader :as reader]
+            [mytemplates]
             )
   (:require-macros
     [cljs.core.async.macros :refer [go alt!]]
@@ -33,15 +34,27 @@
 
 (def GET (GETU SERVER_URL))
 
+
+
 (defn home-page []
-  [:div [:h2 "Welcome to single Yo"]
-   [:div [:a {:href R/P_ABOUT} "go to about page"]]
-   [:div [:a {:href R/P_PRESENTATION} "go to presentation page"]]
-   [:div [:a {:href R/P_BMI} "go to bmi calc"]]
-   [:div [:a {:href R/P_TIME} "go to time page"]]
-   [:div [:a {:href R/P_TODO} "go to todo page"]]
-   [:div {:id "log"}]
-   ])
+  [:div#content
+   [:div#show_files "Loading..."]
+   [:div#file-form-div "Upload form is loading..."]
+
+
+
+
+   ;;;experimental
+   [:div [:h2 "Welcome to single Yo"]
+    [:div [:a {:href R/P_ABOUT} "go to about page"]]
+    [:div [:a {:href R/P_PRESENTATION} "go to presentation page"]]
+    [:div [:a {:href R/P_BMI} "go to bmi calc"]]
+    [:div [:a {:href R/P_TIME} "go to time page"]]
+    [:div [:a {:href R/P_TODO} "go to todo page"]]
+    [:div {:id "log"}]
+    ]
+   ]
+  )
 
 (defn read-json [json]
   (t/read (t/reader :json) json))
@@ -58,7 +71,12 @@
                (map add-div (read-json files))
                ;(doseq file files (log file))
                ))
-           ])))
+           ]))
+  (dom/set-html!
+    (sel1 :#file-form-div)
+    (html mytemplates/upload-form)
+    )
+  )
 
 
 
