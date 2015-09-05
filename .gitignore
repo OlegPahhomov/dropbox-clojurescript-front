@@ -1,0 +1,24 @@
+#Project
+tasks.xml
+figwheel_server.log
+Procfile
+system.properties
+
+# IntelliJ project files
+.idea
+*.iml
+out
+gen
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# Mac
+.DS_Store
+
+# Maven
+log/
+target/
+
