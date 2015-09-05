@@ -29,6 +29,7 @@
                  [org.clojure/core.async "0.1.346.0-17112a-alpha"]
                  [prismatic/dommy "1.1.0"]
                  [jayq "2.5.4"]
+                 [cljs-ajax "0.3.14"]
                  ]
 
   :plugins [[lein-environ "1.0.0"]

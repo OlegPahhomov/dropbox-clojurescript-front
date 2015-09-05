@@ -28,7 +28,6 @@
      (include-js
        "libs/jquery/jquery-1.11.3.min.js"
        "libs/fancybox/jquery.fancybox.pack.js"
-       "libs/fancyhack.js"
        "js/app.js")]]))
 
 (defroutes routes

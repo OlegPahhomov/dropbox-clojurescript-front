@@ -8,6 +8,7 @@
             [clojure.walk :refer [keywordize-keys]]
             [single.mytemplates.templates :as mytemplates]
             [jayq.core :as jq]
+            [ajax.core :as ajax :refer  [GET POST]]
             )
   (:require-macros
     [cljs.core.async.macros :refer [go alt!]]
@@ -21,7 +22,7 @@
 (defn log [s]
   (.log js/console (str s)))
 
-(defn GET [url]
+(defn GETs [url]
   (let [ch (chan 1)]
     (xhr/send url
               (fn [event]
@@ -30,7 +31,7 @@
                       (close! ch)))))
     ch))
 
-(def GET_FILES (GET FILES_URL))
+(def GET_FILES (GETs FILES_URL))
 
 (defn home-page []
   [:div#content
@@ -53,6 +54,12 @@
     (sel1 :#file-form-div)
     (html mytemplates/upload-form))
 
+  (dom/set-text!
+    (sel1 :#fancybox)
+    (do
+      (log (ajax/GET "http://localhost:8080/files"))
+      "text")
+    )
   (jq/bind ($ "#btn") :click (fn [] (js/alert "Hi!")))
 
   )
