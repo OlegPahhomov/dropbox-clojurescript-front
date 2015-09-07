@@ -33,8 +33,9 @@
       [:img {:src picture-url}]
       ]
 
-     [:div {:id (str "delete_" picture-id)}
-      [:button.close {:type  "submit"
+     [:div
+      [:button.close {:id (str "delete_" picture-id)
+                      :type  "submit"
                       :title "Delete file"}
        "&times;"]
       ]
