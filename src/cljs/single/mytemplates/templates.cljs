@@ -5,16 +5,13 @@
             [cljs-http.client :as http]))
 
 (def MAIN_URL "http://localhost:8080/")
-(def DELETE_URL (str MAIN_URL "remove/"))
 (def PICTURE_URL (str MAIN_URL "picture/"))
+
 (defn read-json [json]
   (t/read (t/reader :json) json))
 
 (defn log [s]
-  (.log js/console (str s)))
-
-(def abc
-  (fn [] (js/alert "hello")))
+  (.log js/console s))
 
 (defn display-one-file [picture]
   "destructuring didn't work"
@@ -34,7 +31,7 @@
       ]
 
      [:div
-      [:button.close {:id (str "delete_" picture-id)
+      [:button.close {:id    (str "delete_" picture-id)
                       :type  "submit"
                       :title "Delete file"}
        "&times;"]
@@ -67,7 +64,7 @@
 
 
 (def upload-form
-  [:form#fileForm {:method :post
+  [:form#fileForm {:method  :post
                    :enctype "multipart/form-data"}
    [:div.heading [:h3 "Upload new files"]]
    [:div.upload-block
