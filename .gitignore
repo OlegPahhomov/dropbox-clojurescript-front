@@ -4,6 +4,7 @@ figwheel_server.log
 Procfile
 system.properties
 .lein-env
+pom.xml
 
 # IntelliJ project files
 .idea

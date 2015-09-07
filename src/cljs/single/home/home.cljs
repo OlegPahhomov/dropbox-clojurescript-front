@@ -87,7 +87,7 @@
                  "http://localhost:8080/remove/")
 
              ))
-  (let [files (first ($ ($ "#fileForm"))) ]
+  #_(let [files (first ($ ($ "#fileForm"))) ]
     (jq/bind
       ($ "#fileForm") :submit
       (fn [e]
