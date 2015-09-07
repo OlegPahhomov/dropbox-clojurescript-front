@@ -39,11 +39,8 @@
   [:div#content
    [:div#show_files "Loading..."]
    [:div#file-form-div "Upload form is loading..."]
-   [:div#fancybox "blabla"]
-   [:button#btn "button"]
    ]
   )
-
 
 (defn generate-form-data [params]
   (let [form-data (js/FormData.)]
@@ -56,7 +53,6 @@
                                     {:body (generate-form-data {:file file})}))]
         (prn (:status response))
         (prn (:body response)))))
-
 
 (go
   (dom/set-html!
@@ -82,14 +78,6 @@
   (dom/set-html!
     (sel1 :#file-form-div)
     (html mytemplates/upload-form))
-
-  (dom/set-text!
-    (sel1 :#fancybox)
-    (do
-      ;(log (ajax/POST "http://localhost:8080/remove/1"))
-      "text")
-    )
-  (jq/bind ($ "#btn") :click (fn [] (js/alert (str "Hi! "))))
   (jq/bind
     ($ "#fileForm") :submit
     (fn [e]
