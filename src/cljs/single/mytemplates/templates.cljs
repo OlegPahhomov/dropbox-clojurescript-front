@@ -19,19 +19,22 @@
         picture-name (get picture 1)
         picture-url (get picture 2)
         picture-ratio-class (get picture 3)
-        picture-pop-up-link (get picture 4)]
+        picture-pop-up-link (get picture 4)
+        picture-delete-class (get picture 5)
+        ]
     [:div {:class picture-ratio-class}
      [:a.fancybox {:title picture-name
-                   :href  picture-pop-up-link}
+                   :href  picture-url}                      ;picture-pop-up-link}
       [:img {:src picture-url}]
       ]
-     [:div.file-fullscreen {:id    picture-pop-up-link
-                            :style "display: none;"}
-      [:img {:src picture-url}]
-      ]
+     ;;;;fancybox... trying in vain
+     ;[:div.file-fullscreen {:id    picture-pop-up-link
+     ;                       :style "display: none;"}
+     ; [:img {:src picture-url}]
+     ; ]
 
      [:div
-      [:button.close {:id    (str "delete_" picture-id)
+      [:button.close {:id    picture-delete-class
                       :type  "submit"
                       :title "Delete file"}
        "&times;"]
@@ -40,7 +43,7 @@
     ))
 
 
-(defn map-to-list-of-picture-id-name-url-ratioclass [filelist]
+(defn map-to-dto-list [filelist]
   (conj []
         (get filelist "id")
         (get filelist "name")
@@ -49,10 +52,11 @@
           "file bigfile"
           "file")
         (str "show_popup_link_" (get filelist "id"))
+        (str "delete_" (get filelist "id"))
         ))
 
 (defn make-inner-htmls [files]
-  (map display-one-file (doall (map map-to-list-of-picture-id-name-url-ratioclass (read-json files)))))
+  (map display-one-file (doall (map map-to-dto-list (read-json files)))))
 
 (defn display-files [files]
   [:div
@@ -63,25 +67,4 @@
    ])
 
 
-(def upload-form
-  [:form#fileForm {:method  :post
-                   :enctype "multipart/form-data"}
-   [:div.heading [:h3 "Upload new files"]]
-   [:div.upload-block
-    [:div.upload-block__item.upload-block__item--big
-     [:input#file.inherit-width.upload-item-input {:type     "file"
-                                                   :multiple true
-                                                   :accept   "image/*"
-                                                   :require  true}]
-     ]
-    [:div.upload-block__item
-     [:input.inherit-width {:type  "submit"
-                            :value "Add file"}]
-     ]
-    [:div.upload-block__item.upload-block__item--big.upload-block__note
-     "Big images will be resized proportionally to 1600px width or 900px height"
-     ]
-    [:div.upload-block__item]
-    ]
-   ]
-  )
+
